@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -19,8 +21,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [formVisible, setformVisible] = useState(false)
-
 
   useEffect(() => {
     blogService
@@ -71,7 +71,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    window.localStorage.clear()
+    window.localStorage.removeItem('loggedinUser')
     console.log(`${user.name} logged out`)
     setUser(null)
   }
@@ -90,73 +90,39 @@ const App = () => {
     }
   }
 
-  const blogForm = () => {
-    const hideWhenVisible = { display: formVisible ? 'none' : '' }
-    const showWhenVisible = { display: formVisible ? '' : 'none' }
-
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button
-            onClick={() => setformVisible(true)}>Luo uusi
-           </button>
-        </div>
-
-        <div style={showWhenVisible}>
-          <BlogForm onSubmit={addBlog} />
-          <button
-            onClick={() => setformVisible(false)}>Peru
-          </button>
-        </div>
-      </div>
-    )
-  }
-
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        käyttäjätunnus
-          <input
-          type="text"
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        salasana
-          <input
-          type="password"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">kirjaudu</button>
-    </form>
+    <LoginForm
+      username={username}
+      password={password}
+      onSubmit={handleLogin}
+      onUsernameChange={({ target }) => setUsername(target.value)}
+      onPasswordChange={({ target }) => setPassword(target.value)}
+    />
   )
 
-  if (user === null) {
-    return (
-      <div>
-        <h3>Kirjaudu</h3>
-        <Notification message={message} />
-        {loginForm()}
-      </div>
+  const showBlogs = () => (
+    <div>
+      <p>{user.name} kirjautunut
+        <button onClick={handleLogout}>
+          logout
+            </button>
+      </p>
 
-    )
-  }
+      <Togglable buttonLabel="Luo uusi">
+        <BlogForm onSubmit={addBlog} />
+      </Togglable>
+
+      <Blogs blogs={blogs} />
+    </div>
+  )
 
   return (
     <div>
       <h1>Blogs</h1>
       <Notification message={message} />
-      <p>{user.name} kirjautunut
-      <button className="btn-logout" onClick={handleLogout}>
-          logout
-          </button>
-      </p>
-      {blogForm()}
-      <Blogs blogs={blogs} />
 
+      {user === null && loginForm()}
+      {user !== null && showBlogs()}
     </div>
   )
 }
