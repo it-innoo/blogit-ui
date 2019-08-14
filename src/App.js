@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -65,6 +66,20 @@ const App = () => {
     setUser(null)
   }
 
+  const addBlog = async (newBlog) => {
+    try {
+      const savedBlog =
+        await blogService
+          .create(newBlog)
+      setBlogs(blogs.concat(savedBlog))
+      console.log(`Created new blog ${savedBlog}`)
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -105,6 +120,7 @@ const App = () => {
           logout
           </button>
       </p>
+      <BlogForm onSubmit={addBlog} />
       <Blogs blogs={blogs} />
 
     </div>
