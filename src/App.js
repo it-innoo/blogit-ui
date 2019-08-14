@@ -19,6 +19,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [formVisible, setformVisible] = useState(false)
 
 
   useEffect(() => {
@@ -89,6 +90,28 @@ const App = () => {
     }
   }
 
+  const blogForm = () => {
+    const hideWhenVisible = { display: formVisible ? 'none' : '' }
+    const showWhenVisible = { display: formVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button
+            onClick={() => setformVisible(true)}>Luo uusi
+           </button>
+        </div>
+
+        <div style={showWhenVisible}>
+          <BlogForm onSubmit={addBlog} />
+          <button
+            onClick={() => setformVisible(false)}>Peru
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -131,7 +154,7 @@ const App = () => {
           logout
           </button>
       </p>
-      <BlogForm onSubmit={addBlog} />
+      {blogForm()}
       <Blogs blogs={blogs} />
 
     </div>
