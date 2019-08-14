@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -14,6 +15,7 @@ const Blogs = (props) => {
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [message, setMessage] = useState({ message: null })
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -37,6 +39,11 @@ const App = () => {
     }
   }, [])
 
+  const notify = (message, type = 'info') => {
+    setMessage({ message, type })
+    setTimeout(() => setMessage({ message: null }), 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
@@ -56,7 +63,9 @@ const App = () => {
       setPassword('')
       console.log(`${user.name} logged in`)
     } catch (error) {
-      console.log('käyttäjätunnus tai salasana virheellinen')
+      setUsername('')
+      setPassword('')
+      notify('käyttäjätunnus tai salasana virheellinen', 'error')
     }
   }
 
@@ -72,7 +81,7 @@ const App = () => {
         await blogService
           .create(newBlog)
       setBlogs(blogs.concat(savedBlog))
-      console.log(`Created new blog ${savedBlog}`)
+      notify(`Lisätty uusi blogi ${savedBlog.author}'n ${savedBlog.title} `)
 
     } catch (error) {
       console.log(error)
@@ -86,7 +95,7 @@ const App = () => {
         käyttäjätunnus
           <input
           type="text"
-          placeholder={username}
+          value={username}
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
@@ -94,7 +103,7 @@ const App = () => {
         salasana
           <input
           type="password"
-          placeholder={password}
+          value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
@@ -106,6 +115,7 @@ const App = () => {
     return (
       <div>
         <h3>Kirjaudu</h3>
+        <Notification message={message} />
         {loginForm()}
       </div>
 
@@ -115,6 +125,7 @@ const App = () => {
   return (
     <div>
       <h1>Blogs</h1>
+      <Notification message={message} />
       <p>{user.name} kirjautunut
       <button className="btn-logout" onClick={handleLogout}>
           logout
