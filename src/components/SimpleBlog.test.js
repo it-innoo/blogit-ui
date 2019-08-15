@@ -1,9 +1,6 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
-import { render, cleanup } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import SimpleBlog from './SimpleBlog'
-
-afterEach(cleanup)
 
 test('renders title, author and likes', () => {
   const blog = {
@@ -12,20 +9,18 @@ test('renders title, author and likes', () => {
     likes: 5
   }
 
-  const component = render(
+  const { getByTestId } = render(
     <SimpleBlog
       blog={blog}
     />
   )
 
-  // component.debug()
-  expect(component.container).toHaveTextContent(
-    'First class tests'
-  )
-  expect(component.container).toHaveTextContent(
-    'Robert C. Martin'
-  )
-  expect(component.container).toHaveTextContent(
-    '5'
-  )
+  //getByTestId.debug()
+  expect(getByTestId('blog')
+    .textContent)
+    .toBe('First class tests Robert C. Martin')
+
+  expect(getByTestId('blogLikes')
+    .textContent)
+    .toBe('blog has 5 likeslike')
 })
