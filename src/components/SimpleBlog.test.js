@@ -24,3 +24,26 @@ test('renders title, author and likes', () => {
     .textContent)
     .toBe('blog has 5 likeslike')
 })
+
+it(
+  'clicking like like button twice calls event handler twice',
+  async () => {
+
+    const blog = {
+      title: 'React patterns',
+      author: 'Michael Chan',
+      likes: 0
+    }
+
+    const mockHandler = jest.fn()
+
+    const { getByText } = render(
+      <SimpleBlog blog={blog} onClick={mockHandler} />
+    )
+
+    const button = getByText('like')
+    fireEvent.click(button)
+    fireEvent.click(button)
+
+    expect(mockHandler.mock.calls.length).toBe(2)
+  })
