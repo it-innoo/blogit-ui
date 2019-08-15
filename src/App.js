@@ -7,6 +7,8 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const ref = React.createRef()
+
 const Blogs = (props) => {
   return (
     props.blogs.map(b =>
@@ -76,8 +78,22 @@ const App = () => {
     setUser(null)
   }
 
+  const loginForm = () => (
+    <LoginForm
+      username={username}
+      password={password}
+      onSubmit={handleLogin}
+      onUsernameChange={({ target }) => setUsername(target.value)}
+      onPasswordChange={({ target }) => setPassword(target.value)}
+    />
+  )
+
+
+
   const addBlog = async (newBlog) => {
+
     try {
+      ref.current.toggleVisibility()
       const savedBlog =
         await blogService
           .create(newBlog)
@@ -90,25 +106,15 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <LoginForm
-      username={username}
-      password={password}
-      onSubmit={handleLogin}
-      onUsernameChange={({ target }) => setUsername(target.value)}
-      onPasswordChange={({ target }) => setPassword(target.value)}
-    />
-  )
-
   const showBlogs = () => (
     <div>
       <p>{user.name} kirjautunut
         <button onClick={handleLogout}>
           logout
-            </button>
+        </button>
       </p>
 
-      <Togglable buttonLabel="Luo uusi">
+      <Togglable buttonLabel="Luo uusi" ref={ref}>
         <BlogForm onSubmit={addBlog} />
       </Togglable>
 
