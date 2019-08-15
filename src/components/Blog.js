@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
+
 
 const Blog = React.forwardRef((props, ref) => {
   const { blog } = props
@@ -69,5 +71,9 @@ const Blog = React.forwardRef((props, ref) => {
     </div>
   )
 })
+
+Blog.propTypes = {
+  blog: PropTypes.object,
+}
 
 export default Blog
