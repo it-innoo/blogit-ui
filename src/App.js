@@ -14,7 +14,7 @@ const Blogs = (props) => {
     props.blogs
       .sort((a, b) => b.likes - a.likes)
       .map(b =>
-        <Blog key={b.id} blog={b} />
+        <Blog ref={ref} key={b.id} blog={b} />
       )
   )
 }
