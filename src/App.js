@@ -11,9 +11,11 @@ const ref = React.createRef()
 
 const Blogs = (props) => {
   return (
-    props.blogs.map(b =>
-      <Blog key={b.id} blog={b} />
-    )
+    props.blogs
+      .sort((a, b) => b.likes - a.likes)
+      .map(b =>
+        <Blog key={b.id} blog={b} />
+      )
   )
 }
 
