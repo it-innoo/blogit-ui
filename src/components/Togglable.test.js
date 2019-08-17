@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, prettyDOM } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Togglable from './Togglable'
 
 describe('<Togglable />', () => {

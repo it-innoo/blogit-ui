@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 
 
-const Blog = React.forwardRef((props, ref) => {
-  const { blog } = props
+const Blog = ({ blog }) => {
   const [showAll, setShowAll] = useState(false)
 
   const user = window
@@ -38,7 +37,7 @@ const Blog = React.forwardRef((props, ref) => {
   }
 
   const showBlog = () => (
-    <div>
+    <div className="blog-details">
       <a href={blog.url} rel="noopener noreferrer" target="_blank">
         {blog.url}
       </a>
@@ -63,14 +62,14 @@ const Blog = React.forwardRef((props, ref) => {
 
   return (
 
-    <div ref={ref} className='blog'>
-      <p onClick={handleClick}>
+    <div className='blog'>
+      <p className='blog-button' onClick={handleClick}>
         {blog.title} {blog.author}
       </p>
       {showAll && showBlog()}
     </div>
   )
-})
+}
 
 Blog.propTypes = {
   blog: PropTypes.object,

@@ -1,37 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
+import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-const ref = React.createRef()
-
-const Blogs = (props) => {
-  return (
-    props.blogs
-      .sort((a, b) => b.likes - a.likes)
-      .map(b =>
-        <Blog ref={ref} key={b.id} blog={b} />
-      )
-  )
-}
-
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState({ message: null })
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  /*
   useEffect(() => {
     blogService
       .getAll().then(initialBlogs => {
         setBlogs(initialBlogs)
       })
   }, [])
+  */
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage
@@ -91,6 +79,7 @@ const App = () => {
 
 
 
+  /*
   const addBlog = async (newBlog) => {
 
     try {
@@ -106,7 +95,7 @@ const App = () => {
 
     }
   }
-
+*/
   const showBlogs = () => (
     <div>
       <p>{user.name} kirjautunut
@@ -114,12 +103,7 @@ const App = () => {
           logout
         </button>
       </p>
-
-      <Togglable buttonLabel="Luo uusi" ref={ref}>
-        <BlogForm onSubmit={addBlog} />
-      </Togglable>
-
-      <Blogs blogs={blogs} />
+      <Blogs />
     </div>
   )
 
