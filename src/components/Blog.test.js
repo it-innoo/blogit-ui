@@ -1,5 +1,11 @@
 import React from 'react'
-import { render, fireEvent, waitForElement } from '@testing-library/react'
+import {
+  render,
+  fireEvent,
+  wait,
+  waitForElement,
+} from '@testing-library/react'
+import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -32,27 +38,20 @@ describe('<Blog />', () => {
 
   it('renders all info by clicking', async () => {
     const mockHandler = jest.fn()
-    let component = render(
+
+    const { getByText } = render(
       <Blog blog={blog} onClick={mockHandler} />
     )
 
-    await waitForElement(
-      () => component.container.querySelector('.blog')
-    )
+    const clickable = getByText('First class tests Robert C. Martin')
+    expect(clickable).toBeDefined()
 
-    const div = component.container.querySelector('.blog')
-    expect(div).toBeDefined()
+    console.log(prettyDOM(clickable))
 
-    fireEvent.click(div)
+    fireEvent.click(clickable)
 
-    const element = component
-      .container
-      .querySelector('.blogDetails')
+    console.log(mockHandler.mock)
 
-    expect(element).toBeDefined()
-    expect(element).toHaveTextContent(
-      'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll'
-    )
-
+    // expect(mockHandler.mock.calls.length).toBe(1)
   })
 })

@@ -42,21 +42,25 @@ const Blog = React.forwardRef((props, ref) => {
       <a href={blog.url} rel="noopener noreferrer" target="_blank">
         {blog.url}
       </a>
-      <p>
-        {blog.likes} tykkäystä
+      <div className='blog-details'>
+
+        <p>
+          {blog.likes} tykkäystä
         <button onClick={handleLikes}>
-          like
+            like
         </button>
-      </p>
-      <p>
-        Added by {blog.user.name}
-      </p>
-      {user && JSON.parse(user).name === blog.user.name ?
-        <button onClick={handleRemove}>
-          poista
+        </p>
+        <p>
+          Added by {blog.user.name}
+        </p>
+        {user && JSON.parse(user).name === blog.user.name ?
+          <button onClick={handleRemove}>
+            poista
             </button> :
-        <p></p>
-      }
+          <p></p>
+        }
+      </div>
+
     </div>
 
   )
