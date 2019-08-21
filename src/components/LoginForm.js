@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-
 const LoginForm = ({
   username,
   password,
-  onUsernameChange,
   onPasswordChange,
   onSubmit,
 }) => {
@@ -15,11 +13,7 @@ const LoginForm = ({
       <form className='login-form' onSubmit={onSubmit}>
         <div>
           käyttäjätunnus
-          <input
-            type="text"
-            value={username}
-            onChange={onUsernameChange}
-          />
+          <input {...username} />
         </div>
         <div>
           salasana
@@ -37,9 +31,8 @@ const LoginForm = ({
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onUsernameChange: PropTypes.func.isRequired,
   onPasswordChange: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.object.isRequired,
   password: PropTypes.string.isRequired
 }
 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useField } from './hooks'
+
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -23,8 +25,10 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState({ message: null })
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
+  const username = useField('text')
+
   const [password, setPassword] = useState('')
+
 
   useEffect(() => {
     blogService
@@ -54,7 +58,7 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password
+        username: username.value, password
       })
 
       window.localStorage.setItem(
@@ -64,11 +68,10 @@ const App = () => {
       blogService.setToken(user.token)
 
       setUser(user)
-      setUsername('')
+      username.reset()
       setPassword('')
-      console.log(`${user.name} logged in`)
     } catch (error) {
-      setUsername('')
+      username.reset()
       setPassword('')
       notify('käyttäjätunnus tai salasana virheellinen', 'error')
     }
@@ -84,7 +87,6 @@ const App = () => {
       username={username}
       password={password}
       onSubmit={handleLogin}
-      onUsernameChange={({ target }) => setUsername(target.value)}
       onPasswordChange={({ target }) => setPassword(target.value)}
     />
   )
