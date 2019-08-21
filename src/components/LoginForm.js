@@ -12,7 +12,7 @@ const LoginForm = ({
   return (
     <div>
       <h3>Kirjaudu</h3>
-      <form onSubmit={onSubmit}>
+      <form className='login-form' onSubmit={onSubmit}>
         <div>
           käyttäjätunnus
           <input
