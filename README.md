@@ -14,3 +14,19 @@
   -  Huomio komponenteista
   -  PropTypes
   -  ESlint
+
+3. React sovellusten testaaminen
+
+  -  Komponentin renderöinti testiä varten
+  -  Testien suorittaminen
+  -  Testien sijainti
+  -  Sisällön etsiminen testattavasta komponentista
+  -  Testien debuggaaminen
+  -  setup
+  -  Nappien painelu testeissä
+  -  Komponentin Togglable testit
+  -  Lomakkeiden testaus
+  -  Frontendin integraatiotestaus
+  -  Testauskattavuus
+  -  Snapshot-testaus
+  -  End to end -testaus

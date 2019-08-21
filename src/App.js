@@ -110,7 +110,7 @@ const App = () => {
   const showBlogs = () => (
     <div>
       <p>{user.name} kirjautunut
-        <button onClick={handleLogout}>
+        <button className='.btn-logout' onClick={handleLogout}>
           logout
         </button>
       </p>
