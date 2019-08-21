@@ -26,8 +26,8 @@ const App = () => {
   const [message, setMessage] = useState({ message: null })
   const [user, setUser] = useState(null)
   const username = useField('text')
-
-  const [password, setPassword] = useState('')
+  const password = useField('password')
+  //  const [password, setPassword] = useState('')
 
 
   useEffect(() => {
@@ -58,7 +58,8 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username: username.value, password
+        username: username.value,
+        password: password.value
       })
 
       window.localStorage.setItem(
@@ -69,10 +70,10 @@ const App = () => {
 
       setUser(user)
       username.reset()
-      setPassword('')
+      password.reset()
     } catch (error) {
       username.reset()
-      setPassword('')
+      password.reset()
       notify('käyttäjätunnus tai salasana virheellinen', 'error')
     }
   }
@@ -87,7 +88,7 @@ const App = () => {
       username={username}
       password={password}
       onSubmit={handleLogin}
-      onPasswordChange={({ target }) => setPassword(target.value)}
+    //  onPasswordChange={({ target }) => setPassword(target.value)}
     />
   )
 

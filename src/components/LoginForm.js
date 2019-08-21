@@ -7,21 +7,21 @@ const LoginForm = ({
   onPasswordChange,
   onSubmit,
 }) => {
+  const { reset, ...uname } = username
+  const { type, value, onChange } = password
+  const pwd = { type, value, onChange }
+
   return (
     <div>
       <h3>Kirjaudu</h3>
       <form className='login-form' onSubmit={onSubmit}>
         <div>
           käyttäjätunnus
-          <input {...username} />
+          <input {...uname} />
         </div>
         <div>
           salasana
-          <input
-            type="password"
-            value={password}
-            onChange={onPasswordChange}
-          />
+          <input {...pwd} />
         </div>
         <button type="submit">kirjaudu</button>
       </form>
@@ -31,9 +31,8 @@ const LoginForm = ({
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onPasswordChange: PropTypes.func.isRequired,
   username: PropTypes.object.isRequired,
-  password: PropTypes.string.isRequired
+  password: PropTypes.object.isRequired
 }
 
 export default LoginForm
